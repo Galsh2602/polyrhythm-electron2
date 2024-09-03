@@ -1,12 +1,18 @@
-// src/mainPage.js
-
-import { playRhythm } from './rhythm.js';
+import { createOscillator } from './sound.js';
+import { animateBall } from './animation.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    playRhythm(120, 10); // Example: Play a rhythm at 120 BPM for 10 seconds
+    const canvas = document.getElementById('screen');
+    const ctx = canvas.getContext('2d');
 
-    const startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', () => {
-        playRhythm(100, 15); // Play rhythm at 100 BPM for 15 seconds on button click
-    });
+    // Example: Animate a ball on a polygon
+    animateBall(ctx, 6, 100, canvas.width / 2, canvas.height / 2, 10, 'red');
+
+    // Example: Start an oscillator (sound)
+    const { oscillator, gainNode, audioCtx } = createOscillator(440, 0.5);
+    // Stop oscillator after 2 seconds
+    setTimeout(() => {
+        oscillator.stop();
+        audioCtx.close();
+    }, 2000);
 });

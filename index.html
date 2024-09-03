@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polyrhythm Visualizer</title>
+    <style>
+        /* Basic styles */
+        #console { background-color: #f0f0f0; padding: 20px; border-radius: 10px; }
+        canvas { background-color: #333; display: block; margin: 0 auto; }
+        .slider { margin: 20px; }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Polyrhythm Visualizer</h1>
-    <p>This will display your polyrhythm visualization.</p>
-    <button id="startButton">Start Rhythm</button>
+    <div id="console">
+        <canvas id="screen" width="500" height="500"></canvas>
+        <input type="range" id="slider" class="slider" min="1" max="2000" value="275">
+    </div>
 
-    <!-- Use type="module" to enable ES modules -->
     <script type="module" src="src/mainPage.js"></script>
 </body>
 </html>
