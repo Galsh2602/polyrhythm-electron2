@@ -1,3 +1,4 @@
+//sound.js
 export function createOscillator(frequency, volume) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioCtx.createOscillator();
@@ -13,4 +14,8 @@ export function createOscillator(frequency, volume) {
 
     oscillator.start();
     return { oscillator, gainNode, audioCtx };
+}
+
+export function changeFrequency(oscillator, frequency) {
+    oscillator.frequency.setValueAtTime(frequency, oscillator.context.currentTime);
 }
