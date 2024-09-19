@@ -1,6 +1,18 @@
 // draw.js
 
-export function drawPolygon(ctx, sides, radius, x, y, color) {
+export function drawPolygon(canvas, sides, radius, x, y, color) {
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvas.clientWidth * dpr;
+    canvas.height = canvas.clientHeight * dpr;
+    ctx.scale(dpr, dpr);
+
+    // Adjust x and y by dividing by dpr
+    x = canvas.width/2 ;
+    console.log(x);
+    y = canvas.height / 2;
+    console.log(y);
+
     ctx.save();  // Save the current state of the canvas
     ctx.beginPath();
     ctx.strokeStyle = color;
@@ -29,7 +41,7 @@ export function drawWaveOnCanvas(canvas, frequency) {
 
     ctx.beginPath();
     for (let x = 0; x < width; x++) {
-        const y = height / 2 + Math.sin(x * 0.05 * frequency) * (height / 4);  // Sinusoidal curve
+        const y = height / 2 + Math.sin(x * 0.05 * (frequency / 4)) * (height / 4);  // Sinusoidal curve
         if (x === 0) {
             ctx.moveTo(x, y);
         } else {

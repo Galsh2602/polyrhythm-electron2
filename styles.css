@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-    background-color: #ffb6c1;
+    background-color:#FFB8CF;
     border-radius: 30px;
     width: 1600px;
     height: 900px;
@@ -90,8 +90,8 @@ input[type="range"]::-webkit-slider-thumb {
 .center-panel {
     width: 70%;
     height: 100%;
-    background-color: #2ba68a;
-    border-radius: 10px;
+    background-color:#009691;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,8 +99,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .center-panel canvas {
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 95%;
+    background-color: #4DC9A7;
 }
 
 .right-panel {
@@ -111,6 +112,29 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
 }
 
+.toggle-panel {
+    width: 100%;
+    height: 12.5%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    -webkit-appearance: none;
+    appearance: none;
+    user-select: none;
+    background-color:rgb(31, 39, 69);
+    border: 2px solid #5900ff;
+    border-radius: 10px;
+}
+input[type="checkbox"]:checked {
+    background-color: #ff00b3;
+}
 .waveform {
     width: 80px;
     height: 30px;
@@ -118,15 +142,13 @@ input[type="range"]::-webkit-slider-thumb {
     margin-bottom: 15px;
 }
 
-button {
-    background-color: #00cc66;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.beat-canvas {
+    width: 180px;
+    height: 100%;
+    background-color: #FFB8CF;
+
 }
+
 
 .sshhh {
     background-color: #00cc66;

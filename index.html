@@ -18,7 +18,7 @@
                     <div class="slider-label">HARMONY ></div>
                     <div class="slider-label">EEEEEE ></div>
                 </div>
-                <input type="range" min="0" max="5800" value="45" step="1" class="slider" id="slider">
+                <input type="range" min="0" max="5800" value="60" step="1" class="slider" id="slider">
 
             </div>
 
@@ -30,16 +30,43 @@
         </div>
 
         <div class="right-panel">
-            <div class="waveform"></div>
-            <div class="waveform"></div>
-            <div class="waveform"></div>
-            <div class="waveform"></div>
-            <div class="waveform"></div>
-            <button>SSHHHHHH!</button>
+            <div class="toggle-panel">
+            <input type="checkbox" class="beat-checkbox" id="1beat">
+            <canvas class="beat-canvas" id="1beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+            <input type="checkbox" class="beat-checkbox" id="2beat">
+            <canvas class="beat-canvas" id="2beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="3beat">
+                <canvas class="beat-canvas" id="3beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="4beat">
+                <canvas class="beat-canvas" id="4beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="5beat">
+                <canvas class="beat-canvas" id="5beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="6beat">
+                <canvas class="beat-canvas" id="6beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="7beat">
+                <canvas class="beat-canvas" id="7beat-canvas"></canvas>
+            </div>
+            <div class="toggle-panel">
+                <input type="checkbox" class="beat-checkbox" id="8beat">
+                <canvas class="beat-canvas" id="8beat-canvas"></canvas>
+            </div>
+            <button class="sshhh" id="stop-button">SSHHHHHH!</button>
         </div>
     </div>
     <script src="src/mainPage.js" type="module"></script>
-    <script src="src/slider.js" type="module"></script>
     <script src="src/sound.js" type="module"></script>
+    <script src="src/overtone.js" type="module"></script>
 </body>
 </html>

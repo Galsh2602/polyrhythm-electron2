@@ -1,32 +1,80 @@
-import { createOscillator,changeFrequency } from "./sound.js";
-import { drawPolygon } from "./draw.js";
+import Overtone from './overtone.js';
+import { drawWaveOnCanvas } from './draw.js';
+import { drawPolygon } from './draw.js';
 document.addEventListener('DOMContentLoaded', () => {
-    const slider = document.getElementById('slider'); // Get the slider element
-    const BPMText = document.getElementById('BPM'); // Get the BPM text element
-    const HzText = document.getElementById('Hz'); // Get the Hz text element
-
-    const mainCanvas = document.getElementById('canvas'); // Get the canvas element
-
-    let BPM = slider.value; // Get the slider's initial value
-    let frequency = Math.round(BPM / 60 * 1000) / 1000;
-
-    BPMText.textContent = `${BPM} BPM`; //Display the inital BPM
-    HzText.textContent = `${frequency} Hz`; // Display the inital frequency
-
-    drawPolygon(mainCanvas.getContext('2d'), 3, 20, canvas.width / 2, canvas.height / 2, 'red'); // Draw a triangle on the canvas
-    drawPolygon(mainCanvas.getContext('2d'), 4, 20, canvas.width / 2, canvas.height / 2, 'yellow'); // Draw a triangle on the 
-    drawPolygon(mainCanvas.getContext('2d'), 360, 20, canvas.width / 2, canvas.height / 2, 'green'); // Draw a triangle on the 
+    const Maincanvas = document.getElementById('canvas');
+    const slider = document.getElementById('slider'); 
+    const BPMText = document.getElementById('BPM'); 
+    const HzText = document.getElementById('Hz'); 
+    const stopButton = document.getElementById('stop-button');
+    const WaveCanvas = [];
+    const Toggles = [];
     
+    for (let i = 1; i <= 8; i++) {
+        Toggles.push(document.getElementById(`${i}beat`));
+        WaveCanvas.push(document.getElementById(`${i}beat-canvas`));
+        drawWaveOnCanvas(WaveCanvas[i-1], i);
+    }
 
-    const { oscillator, gainNode, audioCtx } = createOscillator(0.75, 0.02);
+
+    const mainCanvas = document.getElementById('canvas');
+    const ctx = mainCanvas.getContext('2d'); 
+
+    let BPM = slider.value;
+    let frequency = Math.round(BPM / 60 * 1000) / 1000; 
+
+    BPMText.textContent = `${BPM} BPM`;
+    HzText.textContent = `${frequency} Hz`;
+
+    const subdivisions = [1, 2, 3, 4, 5, 6, 7, 8];  // Subdivisions for each beat
+    const overtones = [];
+
+    
+        drawPolygon(Maincanvas, 3, 300, Maincanvas.width, Maincanvas.height, '#F3C4AC'); // Draw the polygon on the canvas
+    
+ 
+
+    // Stop all active overtones when the stop button is clicked
+    stopButton.addEventListener('click', () => {
+        overtones.forEach((overtone, i) => {
+            if (overtone) {
+                overtones[i].stop(); 
+                overtones[i] = null;
+                Toggles[i].checked = false;
+            }
+        });
+    });
+    // Iterate over the checkboxes to add event listeners
+    Toggles.forEach((toggle, i) => {
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                // Checkbox is checked, create a new overtone object
+                const overtone = new Overtone(i + 1, BPM, subdivisions[i], 0.1, { centerX: 200, centerY: 200, radius: 100 }, ctx);
+                overtones[i] = overtone;
+                overtone.start(); // Start the oscillator and visual animation
+            } else {
+                // Checkbox unchecked, stop and remove the overtone
+                if (overtones[i]) {
+                    overtones[i].stop(); // Stop the oscillator
+                    overtones[i] = null;
+                }
+            }
+        });
+    });
+
+    // Handle BPM slider updates
     slider.addEventListener('input', (event) => {
-        BPM = event.target.value; // puts the sliders value as BPM 
-        frequency = Math.round(BPM / 60 * 1000) / 1000; // turns the BPM into a frequency and rounds up to 3 decimal places
+        BPM = event.target.value;  
+        frequency = Math.round(BPM / 60 * 1000) / 1000; 
 
-        console.log(frequency);
-        changeFrequency(oscillator, frequency); // Change the frequency of the oscillator
         BPMText.textContent = `${BPM} BPM`;
         HzText.textContent = `${frequency} Hz`;
 
+        overtones.forEach((overtone, i) => {
+            if (overtone) {
+                overtone.updateBPM(BPM);  // Update the BPM for active overtones
+            }
+        });
     });
+
 });
