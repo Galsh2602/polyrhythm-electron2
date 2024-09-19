@@ -1,42 +1,38 @@
 import { drawPolygon } from './draw.js';
 
-export function animateBall(ctx, sides, radius, centerX, centerY, ballRadius, color, bpm) {
+export function animateBall(ctx, sides, radius, centerX, centerY, ballRadius, color, bpm, subdivision) {
     let currentEdge = 0;  // Track the current edge (between two vertices)
     let t = 0;  // Parameter to interpolate between vertices
-    const maxBPM = 5800;  // Maximum BPM value for scaling
-    const minBPM = 1;     // Minimum BPM value for scaling
+    const timePerVertex = (60000 / bpm) / subdivision;  // Time per vertex based on BPM and subdivision
 
-    // Adjust the time per vertex based on the BPM
-    let scaledBPM = Math.max(minBPM, Math.min(bpm, maxBPM));  // Ensure BPM is within range
-    const timePerVertex = 60000 / scaledBPM;  // Time per vertex based on BPM (ms)
-
+    const dpr = window.devicePixelRatio || 1;
+    
     // Precompute the vertices of the polygon
     const vertices = [];
     for (let i = 0; i < sides; i++) {
         const angle = (i * 2 * Math.PI) / sides;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
+        const x = centerX + radius * Math.cos(angle) / dpr;
+        const y = centerY + radius * Math.sin(angle) / dpr;
         vertices.push({ x, y });
     }
 
     function animate(lastTime) {
-        // Get the current time and calculate time delta
         const currentTime = performance.now();
         const deltaTime = currentTime - lastTime;
 
         // Move the ball along the edge based on the time passed
-        t += deltaTime / timePerVertex;  // t goes from 0 to 1 over the course of one vertex movement
+        t += deltaTime / timePerVertex;
 
         if (t >= 1) {
-            t = 0;  // Reset `t` once we've completed the move to the next vertex
+            t = 0;  // Reset once we've completed the move to the next vertex
             currentEdge = (currentEdge + 1) % sides;  // Move to the next edge (vertex)
         }
 
         // Clear the canvas
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        // Draw the polygon
-        drawPolygon(ctx, sides, radius, centerX, centerY, 'pink');
+        // Draw the polygon using drawPolygon (which already scales with dpr)
+        drawPolygon(ctx.canvas, sides, radius / dpr, 'pink');
 
         // Get the current and next vertex
         const v0 = vertices[currentEdge];

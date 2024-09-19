@@ -1,8 +1,9 @@
 import Overtone from './overtone.js';
 import { drawWaveOnCanvas } from './draw.js';
-import { drawPolygon } from './draw.js';
+import { drawPolygon,initializeCanvas } from './draw.js';
 document.addEventListener('DOMContentLoaded', () => {
     const Maincanvas = document.getElementById('canvas');
+    initializeCanvas(Maincanvas);
     const slider = document.getElementById('slider'); 
     const BPMText = document.getElementById('BPM'); 
     const HzText = document.getElementById('Hz'); 
@@ -30,9 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const overtones = [];
 
     
-        drawPolygon(Maincanvas, 3, 300, Maincanvas.width, Maincanvas.height, '#F3C4AC'); // Draw the polygon on the canvas
     
- 
+    
+    drawPolygon(Maincanvas, 3, 400,'#F3C4AC'); // Draw the polygon on the canvas
+    drawPolygon(Maincanvas, 360, 400,'#F3C4AC'); // Draw the polygon on the canvas
+    drawPolygon(Maincanvas, 2, 400,'#F3C4AC'); // Draw the polygon on the canvas
+    drawPolygon(Maincanvas, 4, 400,'#F3C4AC'); // Draw the polygon on the canvas
 
     // Stop all active overtones when the stop button is clicked
     stopButton.addEventListener('click', () => {
@@ -52,16 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const overtone = new Overtone(i + 1, BPM, subdivisions[i], 0.1, { centerX: 200, centerY: 200, radius: 100 }, ctx);
                 overtones[i] = overtone;
                 overtone.start(); // Start the oscillator and visual animation
+    
             } else {
                 // Checkbox unchecked, stop and remove the overtone
                 if (overtones[i]) {
                     overtones[i].stop(); // Stop the oscillator
                     overtones[i] = null;
                 }
+
             }
         });
     });
-
+    
     // Handle BPM slider updates
     slider.addEventListener('input', (event) => {
         BPM = event.target.value;  

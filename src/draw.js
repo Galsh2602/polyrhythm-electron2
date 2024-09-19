@@ -1,21 +1,26 @@
 // draw.js
-
-export function drawPolygon(canvas, sides, radius, x, y, color) {
-    const ctx = canvas.getContext('2d');
+export function initializeCanvas(canvas) {
     const dpr = window.devicePixelRatio || 1;
+    const ctx = canvas.getContext('2d');
     canvas.width = canvas.clientWidth * dpr;
     canvas.height = canvas.clientHeight * dpr;
     ctx.scale(dpr, dpr);
-
-    // Adjust x and y by dividing by dpr
-    x = canvas.width/2 ;
-    console.log(x);
-    y = canvas.height / 2;
-    console.log(y);
-
+}
+export function drawPolygon(canvas, sides, radius, color) {
+    const ctx = canvas.getContext('2d');
+    
     ctx.save();  // Save the current state of the canvas
+    let x = canvas.width / 4; 
+    let y = canvas.height / 4; 
+    
+    // Translate to the center of the canvas and rotate 90 degrees to the left
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 2);
+    ctx.translate(-x, -y);
+    
     ctx.beginPath();
     ctx.strokeStyle = color;
+    
     for (let i = 0; i < sides; i++) {
         const angle = (i * 2 * Math.PI) / sides;
         const px = x + radius * Math.cos(angle);
@@ -26,6 +31,7 @@ export function drawPolygon(canvas, sides, radius, x, y, color) {
             ctx.lineTo(px, py);
         }
     }
+
     ctx.closePath();
     ctx.stroke();
     ctx.restore();  // Restore the state to avoid affecting other drawings
